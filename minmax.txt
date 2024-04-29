@@ -1,0 +1,58 @@
+#include <stdio.h>
+void minmax(int a[], int i, int j, int *min, int *max)
+{
+    *min = a[i];
+    *max = a[i];
+    int newmin, newmax;
+    if (i == j)
+    {
+        *min = a[i];
+        *max = a[i];
+    }
+    else
+    {
+        if (i == j - 1)
+        {
+            if (a[i] > a[j])
+            {
+                *max = a[i];
+                *min = a[j];
+            }
+            else
+            {
+                *max = a[j];
+                *min = a[i];
+            }
+        }
+        else
+        {
+            int mid = (i + j) / 2;
+            minmax(a, i, mid, min, max);
+            newmax = *max;
+            newmin = *min;
+            minmax(a, mid + 1, j, min, max);
+            if (newmin < *min)
+                *min = newmin;
+            if (newmax > *max)
+                *max = newmax;
+        }
+    }
+}
+int main()
+{
+    int n;
+    int min;
+    int max;
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+    int a[n];
+    for (int i = 0; i < n; i++)
+    {
+        printf("\n Enter element %d : ", i + 1);
+        scanf("%d", &a[i]);
+    }
+    minmax(a, 0, n - 1, &min, &max);
+    printf("Min : %d\n", min);
+    printf("Max : %d", max);
+    return 0;
+}
